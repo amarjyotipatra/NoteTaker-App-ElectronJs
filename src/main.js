@@ -3,6 +3,9 @@ const path = require('path');
 const fs = require('fs').promises;
 const Store = require('electron-store');
 
+// Disable GPU acceleration for better compatibility
+app.disableHardwareAcceleration();
+
 // Initialize electron-store for persistent data
 const store = new Store();
 
