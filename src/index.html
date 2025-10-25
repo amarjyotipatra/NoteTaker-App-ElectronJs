@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';">
+    <title>NoteTaker - Electron</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main container with sidebar and editor areas -->
+    <div class="container">
+        
+        <!-- Sidebar: List of all notes with search -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="app-title">📝 NoteTaker</h1>
+                <button id="newNoteBtn" class="btn btn-primary" title="Create New Note (Ctrl+N)">
+                    + New Note
+                </button>
+            </div>
+
+            <!-- Search box to filter notes -->
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="🔍 Search notes..."
+                />
+            </div>
+
+            <!-- Notes list populated dynamically -->
+            <div id="notesList" class="notes-list">
+                <!-- Note items will be inserted here by renderer.js -->
+            </div>
+        </aside>
+
+        <!-- Main editor area -->
+        <main class="main-content">
+            <!-- Top header with title input and theme toggle button -->
+            <header class="editor-header">
+                <input 
+                    type="text" 
+                    id="noteTitle" 
+                    class="note-title-input" 
+                    placeholder="Untitled Note" 
+                    maxlength="100"
+                />
+                
+                <!-- Theme toggle switch with sliding animation -->
+                <div class="theme-toggle-container" title="Toggle Dark/Light Theme (Ctrl+T)">
+                    <button id="themeToggleBtn" class="theme-toggle-switch">
+                        <div class="toggle-track">
+                            <!-- Moon icon for dark side -->
+                            <svg class="toggle-icon-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <!-- Sun icon for light side -->
+                            <svg class="toggle-icon-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </div>
+                        <!-- Sliding knob with active icon -->
+                        <div class="toggle-slider">
+                            <svg id="iconMoon" class="slider-icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg id="iconSun" class="slider-icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Editor content area -->
+            <div class="editor-content">
+                <textarea 
+                    id="noteContent" 
+                    class="note-content-textarea" 
+                    placeholder="Start typing your note..."
+                ></textarea>
+            </div>
+
+            <!-- Footer with action buttons and stats -->
+            <footer class="editor-footer">
+                <div class="action-buttons">
+                    <button id="saveNoteBtn" class="btn btn-success" title="Save Note (Ctrl+S)">
+                        💾 Save
+                    </button>
+                    <button id="exportNoteBtn" class="btn btn-secondary" title="Export Note (Ctrl+E)">
+                        📤 Export
+                    </button>
+                    <button id="deleteNoteBtn" class="btn btn-danger" title="Delete Note">
+                        🗑️ Delete
+                    </button>
+                </div>
+
+                <!-- Stats display: word count, character count, last saved -->
+                <div class="stats">
+                    <span id="wordCount" class="stat-item">Words: 0</span>
+                    <span class="stat-divider">|</span>
+                    <span id="charCount" class="stat-item">Characters: 0</span>
+                    <span class="stat-divider">|</span>
+                    <span id="lastSaved" class="stat-item">Not saved</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Welcome message shown when no note is selected -->
+    <div id="welcomeMessage" class="welcome-message">
+        <h2>Welcome to NoteTaker! 🎉</h2>
+        <p>Create a new note to get started or select an existing one from the sidebar.</p>
+    </div>
+
+    <!-- Load renderer JavaScript last to ensure DOM is ready -->
+    <script src="renderer.js"></script>
+</body>
+</html>

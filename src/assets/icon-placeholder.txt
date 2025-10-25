@@ -1,0 +1,3 @@
+# This is a placeholder for the app icon
+# Add your icon.png file here (256x256 recommended)
+# Supported formats: PNG, ICO, ICNS
