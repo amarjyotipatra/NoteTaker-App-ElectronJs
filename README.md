@@ -4,10 +4,17 @@ A modern, feature-rich note-taking application built with Electron.js. Clean int
 
 ## 📥 Download
 
-**[Download NoteTaker v1.0.0 for Windows](https://github.com/amarjyotipatra/NoteTaker-App-ElectronJs/releases/latest)**
+### Windows Installer (71.3 MB)
 
-### Installation
-1. Download `NoteTaker Setup 1.0.0.exe` from the [releases page](https://github.com/amarjyotipatra/NoteTaker-App-ElectronJs/releases)
+Choose your preferred download location:
+
+| Source | Link | Benefits |
+|--------|------|----------|
+| **GitHub Releases** | [Download v1.0.0](https://github.com/amarjyotipatra/NoteTaker-App-ElectronJs/releases/latest) | ✅ Version history<br>✅ Release notes<br>✅ Community standard |
+| **Azure CDN** | [Direct Download](https://notetakerstorage01.blob.core.windows.net/releases/NoteTaker%20Setup%201.0.0.exe) | ✅ Faster speeds<br>✅ Global CDN<br>✅ High availability |
+
+### Installation Steps
+1. Download `NoteTaker Setup 1.0.0.exe` from either source above
 2. Run the installer
 3. Launch NoteTaker from your Start Menu
 
